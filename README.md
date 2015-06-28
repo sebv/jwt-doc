@@ -16,6 +16,23 @@ The JWT addon provides a solution o this problem by replacing the encrypted vari
 
 ### encrypt shared secret
 
+Please refer to the (encryption key doc)(http://docs.travis-ci.com/user/encryption-keys/).
+
+You need to encrypt the shared secret as indicated by the thirdparty service provider, and
+make sure that the variable name is used by Travis Job script.
+
+For instance:
+
+```
+travis encrypt SAUCE_ACCESS_KEY=123456789 # replace with your own access key
+```
+
+or more generally, something like:
+
+```
+travis encrypt THIRDPARTY_SHARE_SECRET=qwertyuiop1234567
+```
+
 ### .travis.yml
 
 ### use token within test code

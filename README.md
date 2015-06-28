@@ -75,13 +75,13 @@ In most language JWT are available, making the implementation straightforward:
 ### payload
 
 Below is the payload used to generate the JWT token:
-```json
+```
 {
   "iss": "travis-ci.org",
   "slug": "<SLUG>",
-  "pull-request": <PR>,
-  "exp": now+5400,
-  "iat": now}
+  "pull-request": "<PR>",
+  "exp": <now+5400>,
+  "iat": <now>}
 }
 ```
 

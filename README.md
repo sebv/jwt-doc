@@ -35,7 +35,31 @@ travis encrypt THIRDPARTY_SHARE_SECRET=qwertyuiop1234567
 
 ### .travis.yml
 
+Next step is to use the encrypted keys generated within the jwt section of the `.travis.yml` file. For instance if you only have one key it will look like:
+
+```yml
+addons:
+  jwt:
+     secure: <SAUCE_ACCESS_KEY ENCRYPTED>
+```
+
+It is also possible to configure several services:
+
+```yml
+addons:
+  jwt:
+     saucelabs:
+        secure: <SAUCE_ACCESS_KEY ENCRYPTED>
+     thirdparty:
+        secure: <THIRDPARTY_SHARED_SECRET ENCRYPTED>
+```
+
 ### use token within test code
 
+The variable names used during the encryption stage will be available as environments variables within the travis job. However these environment variables will contain the JWT tokens instead of the original value. Use those environment variable to authenticate with the thirdparty services.
+
+For instance, using the configuration from the example above, available variable will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
+
 ## Thirdparty service integration
+
 

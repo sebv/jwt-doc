@@ -10,7 +10,6 @@ The JWT addon provides a solution o this problem by replacing the encrypted vari
 
 ## overview schema
 
-![Alt text](http://sebv.github.io/jwt-doc/travis_jwt.svg)
 <img src="http://sebv.github.io/jwt-doc/travis_jwt.svg">
 
 ## JWT client configuration

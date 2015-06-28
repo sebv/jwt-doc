@@ -16,7 +16,7 @@ The JWT addon provides a solution o this problem by replacing the encrypted vari
 
 ### encrypt shared secret
 
-Please refer to the (encryption key doc)(http://docs.travis-ci.com/user/encryption-keys/).
+Please refer to the [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).
 
 You need to encrypt the shared secret as indicated by the thirdparty service provider, and
 make sure that the variable name is used by Travis Job script.

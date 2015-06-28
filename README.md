@@ -65,10 +65,31 @@ For instance, using the configuration from the sections above, available variabl
 
 Thirdparty service need to implement a new authentication method on the server side so that the JWT token is recognized and verified.
 
-Below is an example of how it is done in python:
+### JWT libraries
+
+In most language JWT are available, making the implementation straightforward:
+
+- python: https://pypi.python.org/pypi/PyJWT/1.3.0
+- ryby: https://rubygems.org/gems/jwt
+
+### payload
+
+Below is the payload used to generate the JWT token:
+```json
+{
+  "iss": "travis-ci.org",
+  "slug": "<SLUG>",
+  "pull-request": <PR>,
+  "exp": now+5400,
+  "iat": now}
+}
+```
+
+### code sample 
+
+#### python
 
 @sourishkrout can you help with the hmac description and code sample?
-
 
 ## list of thirdparty integrated with the JWT addon
 

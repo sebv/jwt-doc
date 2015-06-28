@@ -58,8 +58,21 @@ addons:
 
 The variable names used during the encryption stage will be available as environments variables within the travis job. However these environment variables will contain the JWT tokens instead of the original value. Use those environment variable to authenticate with the thirdparty services.
 
-For instance, using the configuration from the example above, available variable will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
+For instance, using the configuration from the sections above, available variables will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
 
-## Thirdparty service integration
 
+## thirdparty service integration
+
+Thirdparty service need to implement a new authentication method on the server side so that the JWT token is recognized and verified.
+
+Below is an example of how it is done in python:
+
+@sourishkrout can you help with the hmac description and code sample?
+
+
+## list of thirdparty integrated with the JWT addon
+
+### Sauce Labs
+
+All you need to do is pass the JWT token as your access key. In most case all you need do is to configure the SAUCE_ACCESS_KEY so that it contains the JWT token.
 

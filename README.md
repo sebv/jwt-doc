@@ -72,7 +72,7 @@ Below is an example of how it is done in python:
 
 ## list of thirdparty integrated with the JWT addon
 
-### Sauce Labs
+### sauce labs
 
 All you need to do is pass the JWT token as your access key. In most case all you need do is to configure the SAUCE_ACCESS_KEY so that it contains the JWT token.
 

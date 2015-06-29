@@ -2,11 +2,11 @@
 
 ## problem
 
-The integration between Travid-CI and thirdparty services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This work great when committing to the master branch or for branches managed by the repo commiters because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contains malicious code exposing the secure variables. As a security measure, access to secure variable has been disabled for PRs, and therefore integration with thirdparty services relying on encrypted variable does not work in the context of PRs.
+The integration between Travid-CI and third-party services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This work great when committing to the master branch or for branches managed by the repo commiters because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contains malicious code exposing the secure variables. As a security measure, access to secure variable has been disabled for PRs, and therefore integration with third-party services relying on encrypted variable does not work in the context of PRs.
 
 ## solution
 
-The JWT addon provides a solution o this problem by replacing the encrypted variable by a time limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the thirdparty need to have integrated with the JWT service and allow token based authentication.
+The JWT addon provides a solution o this problem by replacing the encrypted variable by a time limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the third-party need to have integrated with the JWT service and allow token based authentication.
 
 ## overview schema
 
@@ -18,7 +18,7 @@ The JWT addon provides a solution o this problem by replacing the encrypted vari
 
 Please refer to the [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).
 
-You need to encrypt the shared secret as indicated by the thirdparty service provider, and
+You need to encrypt the shared secret as indicated by the third-party service provider, and
 make sure that the variable name is used by Travis Job script.
 
 For instance:
@@ -56,14 +56,14 @@ addons:
 
 ### use token within test code
 
-The variable names used during the encryption stage will be available as environments variables within the travis job. However these environment variables will contain the JWT tokens instead of the original value. Use those environment variable to authenticate with the thirdparty services.
+The variable names used during the encryption stage will be available as environments variables within the travis job. However these environment variables will contain the JWT tokens instead of the original value. Use those environment variable to authenticate with the third-party services.
 
 For instance, using the configuration from the sections above, available variables will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
 
 
-## thirdparty service integration
+## third-party service integration
 
-Thirdparty service need to implement a new authentication method on the server side so that the JWT token is recognized and verified.
+Third-party service need to implement a new authentication method on the server side so that the JWT token is recognized and verified.
 
 ### JWT libraries
 
@@ -91,7 +91,7 @@ Below is the payload used to generate the JWT token:
 
 @sourishkrout can you help with the hmac description and code sample?
 
-## list of thirdparty integrated with the JWT addon
+## list of third-party integrated with the JWT addon
 
 ### sauce labs
 

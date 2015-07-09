@@ -82,7 +82,7 @@ Below is the payload used to generate the JWT token:
   "slug": "<SLUG>",
   "pull-request": "<PR>",
   "exp": <now+5400>,
-  "iat": <now>}
+  "iat": <now>
 }
 ```
 

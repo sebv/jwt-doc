@@ -92,7 +92,7 @@ Below is the payload used to generate the JWT token:
 
 @sourishkrout can you help with the hmac description and code sample?
 
-## list of third-party integrated with the JWT addon
+## List of Third-Party Services Integrated with the JWT Addon
 
 ### Sauce Labs
 

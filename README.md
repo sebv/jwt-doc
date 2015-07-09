@@ -96,4 +96,4 @@ Below is the payload used to generate the JWT token:
 
 ### Sauce Labs
 
-All you need to do is pass the JWT token as your access key. In most cases, all you need do is to configure the SAUCE_ACCESS_KEY so that it contains the JWT token.
+All you need to do is pass the JWT token as your access key. In most cases, all you need do is to configure the `SAUCE_ACCESS_KEY` so that it contains the JWT token.

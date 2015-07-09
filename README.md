@@ -1,20 +1,20 @@
 # JWT addon
 
-## problem
+## General Problem
 
-The integration between Travid-CI and third-party services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This work great when committing to the master branch or for branches managed by the repo commiters because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contains malicious code exposing the secure variables. As a security measure, access to secure variable has been disabled for PRs, and therefore integration with third-party services relying on encrypted variable does not work in the context of PRs.
+The integration between Travis-CI and third-party services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This works great when committing to the master branch or for branches managed by the repo's commiters because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contain malicious code exposing the secure variables. As a security measure, access to secure variables have been disabled for PRs, and therefore integration with third-party services relying on encrypted variable does not work in the context of Pull Request.
 
-## solution
+## Solution
 
-The JWT addon provides a solution o this problem by replacing the encrypted variable by a time limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the third-party need to have integrated with the JWT service and allow token based authentication.
+The JWT addon provides a solution o this problem by replacing the encrypted variable by a time-limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the third-party need to have integrated with the JWT service and allow token based authentication.
 
-## overview schema
+## Overview Schema
 
 <img src="http://sebv.github.io/jwt-doc/travis_jwt.svg">
 
-## JWT client configuration
+## JWT Client Configuration
 
-### encrypt shared secret
+### Encrypt Shared Secret
 
 Please refer to the [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).
 
@@ -54,25 +54,26 @@ addons:
         secure: <THIRDPARTY_SHARED_SECRET ENCRYPTED>
 ```
 
-### use token within test code
+### Use token within test code
 
-The variable names used during the encryption stage will be available as environments variables within the travis job. However these environment variables will contain the JWT tokens instead of the original value. Use those environment variable to authenticate with the third-party services.
+The variable names used during the encryption stage will be available as environments variables within the Travis-CI job. However, these environment variables will contain the JWT tokens instead of the original value. Use those environment variables to authenticate with the third-party services.
 
 For instance, using the configuration from the sections above, available variables will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
 
 
-## third-party service integration
+## Third-Party Service Integration
 
-Third-party service need to implement a new authentication method on the server side so that the JWT token is recognized and verified.
+Third-party service needs to implement a new authentication method on the server side so that the JWT token is recognized and verified.
 
-### JWT libraries
+### JWT Libraries
 
-In most language JWT are available, making the implementation straightforward:
+In most language JWT compliant libraries are available, making the implementation straightforward:
 
 - python: https://pypi.python.org/pypi/PyJWT/1.3.0
-- ryby: https://rubygems.org/gems/jwt
+- ruby: https://rubygems.org/gems/jwt
+- Check http://jwt.io/ for more
 
-### payload
+### Payload
 
 Below is the payload used to generate the JWT token:
 ```
@@ -85,15 +86,14 @@ Below is the payload used to generate the JWT token:
 }
 ```
 
-### code sample 
+### Code Sample 
 
-#### python
+#### Python
 
 @sourishkrout can you help with the hmac description and code sample?
 
 ## list of third-party integrated with the JWT addon
 
-### sauce labs
+### Sauce Labs
 
-All you need to do is pass the JWT token as your access key. In most case all you need do is to configure the SAUCE_ACCESS_KEY so that it contains the JWT token.
-
+All you need to do is pass the JWT token as your access key. In most cases, all you need do is to configure the SAUCE_ACCESS_KEY so that it contains the JWT token.

@@ -128,4 +128,4 @@ def authenticate(user, access_key):
 
 ### Sauce Labs
 
-All you need to do is pass the JWT token as your access key alongside your `SAUCE_USERNAME`. In most cases, all you need do is to configure the `SAUCE_ACCESS_KEY` so that it contains the JWT token. You can use plain text environment variables for the `SAUCE_USERNAME` or encrypt it according to [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).
+All you need to do is pass the JWT token as your access key alongside your `SAUCE_USERNAME` through the Travis-CI JWT addon. In most cases, all you need do is to configure the `SAUCE_ACCESS_KEY` so that it contains the JWT token. You can use plain text environment variables for the `SAUCE_USERNAME` or encrypt it according to [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).

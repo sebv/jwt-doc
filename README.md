@@ -6,7 +6,7 @@ The integration between Travis-CI and third-party services like Sauce Labs relie
 
 ## Solution
 
-The JWT addon provides a solution o this problem by replacing the encrypted variable by a time-limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the third-party need to have integrated with the JWT service and allow token based authentication.
+The JWT addon provides a solution to this problem by replacing the encrypted variable by a time-limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the third-party need to have integrated with the JWT service and allow token based authentication.
 
 ## Overview Schema
 

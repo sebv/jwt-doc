@@ -2,7 +2,7 @@
 
 ## General Problem
 
-The integration between Travis-CI and third-party services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This works great when committing to the master branch or for branches managed by the repo's commiters because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contain malicious code exposing the secure variables. As a security measure, access to secure variables have been disabled for PRs, and therefore integration with third-party services relying on encrypted variable does not work in the context of Pull Request.
+The integration between Travis-CI and third-party services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This works great when committing to the master branch or for branches managed by the repo's committers because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contain malicious code exposing the secure variables. As a security measure, access to secure variables have been disabled for PRs, and therefore integration with third-party services relying on encrypted variable does not work in the context of Pull Request.
 
 ## Solution
 

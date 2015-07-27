@@ -60,6 +60,11 @@ The variable names used during the encryption stage will be available as environ
 
 For instance, using the configuration from the sections above, available variables will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
 
+### Support
+
+This is the steps to follow in case of problems:
+- Check if the third-party service is supported in the list below.
+- Contact the third-party support and provide them with the encrypted token (echo the key in your test script), and link to the Travis job.
 
 ## Third-Party Service Integration
 

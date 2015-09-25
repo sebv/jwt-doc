@@ -1,41 +1,39 @@
 # JWT addon
 
-## General Problem
+Integration between Travis-CI and third-party services like Sauce Labs relies
+on [encrypted
+variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables)
+which works well for trusted branches and committers. For security reasons,
+encrypted variables are not exposed to untrusted pull requests, so third-party
+integrations do not work for pull requests.
 
-The integration between Travis-CI and third-party services like Sauce Labs relies on [encrypted variables](http://docs.travis-ci.com/user/environment-variables/#Encrypted-Variables). This works great when committing to the master branch or for branches managed by the repo's committers because in this case the code being tested can be trusted. However in the case of PRs the code being tested has not yet been reviewed, so there is no way to make sure that the PR does not contain malicious code exposing the secure variables. As a security measure, access to secure variables have been disabled for PRs, and therefore integration with third-party services relying on encrypted variable does not work in the context of Pull Request.
+The JWT addon replaces encrypted variables with a time-limited authentication
+token, which is exposed to pull requests without security consequences.
 
-## Solution
-
-The JWT addon provides a solution to this problem by replacing the encrypted variable by a time-limited token, so that even if the token is exposed, the consequences are limited. For this to work the JWT addon needs to be enabled in the `.travis.yml` file, and the third-party need to have integrated with the JWT service and allow token based authentication.
-
-## Overview Schema
+For this to work the JWT addon needs to be enabled in the `.travis.yml` file,
+and the third-party need to have integrated with the JWT service and allow
+token-based authentication.
 
 <img src="http://sebv.github.io/jwt-doc/travis_jwt.svg">
 
 ## JWT Client Configuration
 
-### Encrypt Shared Secret
+### Encrypt the Access Key
 
-Please refer to the [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).
+For more information about encrypting variables or access keys in Travis CI
+please refer to the [encryption key
+documentation](http://docs.travis-ci.com/user/encryption-keys/).
 
-You need to encrypt the shared secret as indicated by the third-party service provider, and
-make sure that the variable name is used by Travis Job script.
-
-For instance:
+Encrypt the access key:
 
 ```
 travis encrypt SAUCE_ACCESS_KEY=123456789 # replace with your own access key
 ```
 
-or more generally, something like:
-
-```
-travis encrypt THIRDPARTY_SHARE_SECRET=qwertyuiop1234567
-```
-
 ### .travis.yml
 
-Next step is to use the encrypted keys generated within the jwt section of the `.travis.yml` file. For instance if you only have one key it will look like:
+Add the encrypted key to the `jwt` section of the `.travis.yml`
+file. For example:
 
 ```yml
 addons:
@@ -43,7 +41,7 @@ addons:
      secure: <SAUCE_ACCESS_KEY ENCRYPTED>
 ```
 
-It is also possible to configure several services:
+You can also configure several services:
 
 ```yml
 addons:
@@ -54,17 +52,18 @@ addons:
         secure: <THIRDPARTY_SHARED_SECRET ENCRYPTED>
 ```
 
-### Use token within test code
+### Use the Encrypted Key
 
-The variable names used during the encryption stage will be available as environments variables within the Travis-CI job. However, these environment variables will contain the JWT tokens instead of the original value. Use those environment variables to authenticate with the third-party services.
+The original variable names are available within the Travis CI build as
+environment variables containing the JWT tokens instead of the original values.
 
-For instance, using the configuration from the sections above, available variables will be `SAUCE_ACCESS_KEY` and `THIRDPARTY_SHARED_SECRET`.
+For example, using the previous configuration `SAUCE_ACCESS_KEY` and
+`THIRDPARTY_SHARED_SECRET` will be available as environment variables.
 
-### Support
+### Troubleshooting
 
-This is the steps to follow in case of problems:
-- Check if the third-party service is supported in the list below.
-- Contact the third-party support and provide them with the encrypted token (echo the key in your test script), and link to the Travis job.
+1. Check if the third-party service is supported in the list below.
+2. Contact the third-party support and provide them with the encrypted token (echo the key in your test script), and link to the Travis job.
 
 ## Third-Party Service Integration
 
@@ -80,7 +79,7 @@ In most language JWT compliant libraries are available, making the implementatio
 
 ### Payload
 
-Below is the payload used to generate the JWT token:
+An example payload used to generate the JWT token:
 ```
 {
   "iss": "travis-ci.org",
@@ -92,9 +91,11 @@ Below is the payload used to generate the JWT token:
 ```
 
 ### Third Party Service Provider Code Sample 
-Below is a code example which illustrates how to enable thrid party services to play well with JWT token authentication.
+
+A code sample which illustrates how to add JWT token authentication to third party services.
 
 #### Python
+
 In this example we assume the authentication credentials (using env variables e.g. `SERVICE_USERNAME` + `SERVICE_ACCESS_KEY`) of a RESTful API will be sent as HTTP BASIC AUTH header:
 
 ```
@@ -107,7 +108,14 @@ The HTTP BASIC AUTH header's payload is base64 encoded which will decode to stri
 johndoe:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0cmF2aXMtY2kub3JnIiwic2x1ZyI6InRyYXZpcy1jaS90cmF2aXMtY2kiLCJwdWxsLXJlcXVlc3QiOiIiLCJleHAiOjU0MDAsImlhdCI6MH0.soQJgHR6cGNr9Lj_N6yL2Nk5SQug-hXGUPenJy1QTVc
 ```
 
-The colon separated string contains the username before and the JWT token after the colon. The username is being used to retrieve the user object from the user db. Below is a function which will be executed against the user object and the token to validate them for authentication. Please note that the code is deliberately agnostic to what value the access_key contains. It doesn't matter whether a JWT token or access key is passed into the function. However, service providers will most have to add the JWT auth attempt to an already existing authentication mechanism.
+The colon separated string contains the username before the colon and the JWT
+token after the colon. The username is used to retrieve the user object from
+the user database. Below is a function which is executed against the user
+object and the token to validate them for authentication. Please note that the
+code is deliberately agnostic to what value the access_key contains. It doesn't
+matter whether a JWT token or an access key is passed into the function.
+However, service providers will have to add the JWT auth attempt to an already
+existing authentication mechanism.
 
 ```python
 import jwt
@@ -133,4 +141,13 @@ def authenticate(user, access_key):
 
 ### Sauce Labs
 
-All you need to do is pass the JWT token as your access key alongside your `SAUCE_USERNAME` through the Travis-CI JWT addon. In most cases, all you need do is to configure the `SAUCE_ACCESS_KEY` so that it contains the JWT token. You can use plain text environment variables for the `SAUCE_USERNAME` or encrypt it according to [encryption key doc](http://docs.travis-ci.com/user/encryption-keys/).
+Add your `SAUCE_USERNAME` as a normal environment variable, and your `SAUCE_ACCESS_KEY` as a JWT token:
+
+```yml
+env:
+  - SAUCE_USERNAME=example_username
+addons:
+  jwt:
+     saucelabs:
+        secure: <SAUCE_ACCESS_KEY ENCRYPTED>
+```
